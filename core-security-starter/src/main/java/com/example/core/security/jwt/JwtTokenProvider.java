@@ -29,7 +29,7 @@ public class JwtTokenProvider {
 
     public String generateToken(Authentication authentication) {
 
-    Object principal = authentication.getPrincipal();
+        Object principal = authentication.getPrincipal();
 
         Long userId = null;
         String username;
@@ -48,8 +48,8 @@ public class JwtTokenProvider {
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.joining(","));
         }
-            Date now = new Date();
-            Date expiryDate = new Date(now.getTime() + jwtProperties.getExpirationMs());
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtProperties.getExpirationMs());
 
         return Jwts.builder()
                 .subject(username)
