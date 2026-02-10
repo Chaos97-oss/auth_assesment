@@ -36,6 +36,7 @@ public class JwtTokenProvider {
 
         return Jwts.builder()
                 .subject(userPrincipal.getUsername())
+                .claim("userId", userPrincipal.getUsername())
                 .claim("roles", roles)
                 .issuedAt(new Date())
                 .expiration(expiryDate)
@@ -65,7 +66,7 @@ public class JwtTokenProvider {
             getClaims(authToken);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
-            // Log error if needed
+            
         }
         return false;
     }
