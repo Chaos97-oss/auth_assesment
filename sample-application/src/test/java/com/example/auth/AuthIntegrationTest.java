@@ -42,7 +42,11 @@ public class AuthIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.accessToken").exists());
+                .andExpect(jsonPath("$.accessToken").isNotEmpty())
+                .andExpect(jsonPath("$.userId").isNotEmpty())
+                .andExpect(jsonPath("$.username").value("user"))
+                .andExpect(jsonPath("$.roles").value("ROLE_USER"))
+                .andExpect(jsonPath("$.expiresIn").value(3600000));
     }
 
     @Test

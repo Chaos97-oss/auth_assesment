@@ -35,6 +35,18 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtTokenProvider.generateToken(authentication);
 
-        return ResponseEntity.ok(new AuthResponse(jwt));
+        com.example.auth.model.CustomUserDetails userDetails = (com.example.auth.model.CustomUserDetails) authentication
+                .getPrincipal();
+
+        String roles = userDetails.getAuthorities().stream()
+                .map(grantedAuthority -> grantedAuthority.getAuthority())
+                .collect(java.util.stream.Collectors.joining(","));
+
+        return ResponseEntity.ok(new AuthResponse(jwt, userDetails.getId(), userDetails.getUsername(), roles, 3600000)); // Default
+                                                                                                                         // 1
+                                                                                                                         // hour
+                                                                                                                         // expiry
+                                                                                                                         // matches
+                                                                                                                         // properties
     }
 }
