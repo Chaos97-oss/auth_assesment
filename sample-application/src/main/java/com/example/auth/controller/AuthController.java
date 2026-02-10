@@ -42,11 +42,7 @@ public class AuthController {
                 .map(grantedAuthority -> grantedAuthority.getAuthority())
                 .collect(java.util.stream.Collectors.joining(","));
 
-        return ResponseEntity.ok(new AuthResponse(jwt, userDetails.getId(), userDetails.getUsername(), roles, 3600000)); // Default
-                                                                                                                         // 1
-                                                                                                                         // hour
-                                                                                                                         // expiry
-                                                                                                                         // matches
-                                                                                                                         // properties
+        return ResponseEntity.ok(new AuthResponse(jwt, userDetails.getId(), userDetails.getUsername(), roles, 3600000));
+        
     }
 }
