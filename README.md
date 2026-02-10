@@ -69,3 +69,11 @@ To run the integration tests:
 ```bash
 mvn test -pl sample-application
 ```
+## Design Decisions & Trade-offs
+
+- Implemented authentication logic inside a reusable Spring Boot Starter to promote reuse across services.
+- Used JWT for stateless authentication to simplify horizontal scalability.
+- Chose BCrypt for password hashing due to its adaptive strength and security.
+- Embedded JWT validation inside a filter within the starter to keep security concerns out of consuming applications.
+- Used role-based authorization with Spring Security for fine-grained access control.
+- H2 database was selected for the sample application to simplify setup and testing.
