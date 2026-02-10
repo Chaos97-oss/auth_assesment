@@ -51,10 +51,6 @@ public class JwtTokenProvider {
             Date now = new Date();
             Date expiryDate = new Date(now.getTime() + jwtProperties.getExpirationMs());
 
-        // String roles = userPrincipal.getAuthorities().stream()
-        //         .map(GrantedAuthority::getAuthority)
-        //         .collect(Collectors.joining(","));
-
         return Jwts.builder()
                 .subject(username)
                 .claim("userId", userId)
