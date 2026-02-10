@@ -65,6 +65,7 @@ The application will start on port `8080`.
 ## Testing
 
 To run the integration tests:
+From the root directory, run:
 
 ```bash
 mvn test -pl sample-application
