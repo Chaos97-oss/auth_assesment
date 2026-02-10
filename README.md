@@ -50,7 +50,7 @@ The application will start on port `8080`.
 
 ### Authentication
 - `POST /api/auth/login` - Authenticate and get a JWT.
-    - **Body**: `{ "username": "admin", "password": "password" }` (or "user"/"password")
+    - **Body**: `{ "username": "admin", "password": "admin123" }` (or "user"/"user123")
     - **Response**: `{ "accessToken": "..." }`
 
 ### Protected (Requires Bearer Token)
