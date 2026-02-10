@@ -8,6 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.example.core.security.userdetails.SecurityUser;
+
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -26,18 +28,37 @@ public class JwtTokenProvider {
     }
 
     public String generateToken(Authentication authentication) {
-        UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtProperties.getExpirationMs());
 
-        String roles = userPrincipal.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+    Object principal = authentication.getPrincipal();
+
+        Long userId = null;
+        String username;
+        String roles;
+
+        if (principal instanceof SecurityUser securityUser) {
+            userId = securityUser.getId();
+            username = securityUser.getUsername();
+            roles = securityUser.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.joining(","));
+        } else {
+            UserDetails userDetails = (UserDetails) principal;
+            username = userDetails.getUsername();
+            roles = userDetails.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.joining(","));
+        }
+            Date now = new Date();
+            Date expiryDate = new Date(now.getTime() + jwtProperties.getExpirationMs());
+
+        // String roles = userPrincipal.getAuthorities().stream()
+        //         .map(GrantedAuthority::getAuthority)
+        //         .collect(Collectors.joining(","));
 
         return Jwts.builder()
-                .subject(userPrincipal.getUsername())
-                .claim("userId", userPrincipal.getUsername())
-                .claim("roles", roles)
+                .subject(username)
+                .claim("userId", userId)
+                .claim("roles", username)
                 .issuedAt(new Date())
                 .expiration(expiryDate)
                 .signWith(getSigningKey())
